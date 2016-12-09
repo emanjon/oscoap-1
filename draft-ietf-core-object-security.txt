@@ -435,13 +435,13 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
    give indications on how applications should select the input
    parameters.
 
-   The following input parameters SHALL be established in a previous
-   phase:
+   The following input parameters SHALL be pre-established:
 
    o  Context Identifier (Cid)
 
    o  Base Key (base_key)
 
+   o  AEAD Algorithm (Alg)
 
 
 
@@ -450,12 +450,9 @@ Selander, et al.          Expires June 12, 2017                 [Page 8]
 Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
 
-   o  AEAD Algorithm (Alg)
-
       *  Default is AES-CCM-64-64-128 (value 12)
 
-   The following input parameters MAY be established in a previous
-   phase:
+   The following input parameters MAY be pre-established:
 
    o  Sender ID
 
@@ -476,10 +473,12 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
       *  Default is 64
 
    The endpoints MAY interchange the CoAP client and server roles while
-   maintaining the same security context.  The former server will then
-   make the request using the Sender Context, the former client will
-   verify the request using its Recipient Context etc.  The endpoints
-   MUST NOT change the Sender/Recipient ID.
+   maintaining the same security context.  When this happens, the former
+   server still protects the message to send using the Sender Context,
+   and verifies the message received using its Recipient Context.  The
+   same is also true for the former client.  The endpoints MUST NOT
+   change the Sender/Recipient ID.  In other words, changing the roles
+   does not change the set of keys to be used.
 
    The input parameters are included unchanged in the security context.
    From the input parameters, the following parameters are derived:
@@ -498,6 +497,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
    Given the input parameters, the client and server can derive all the
    other parameters in the security context.  The derivation procedure
    described here MUST NOT be executed more than once using the same
+
 
 
 
@@ -545,13 +545,13 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
 3.2.2.  Context Identifier
 
-   As mentioned, Cid is established in a previous phase.  How this is
-   done is application specific, but it is RECOMMENDED that the
-   application uses 64-bits long pseudo-random Cids, in order to have
-   globally unique Context Identifiers.  Cid SHOULD be unique in the
-   sets of all security contexts used by all the endpoints.  If it is
-   not the case, it is the role of the application to specify how to
-   handle collisions.
+   As mentioned, Cid is pre-established.  How this is done is
+   application specific, but it is RECOMMENDED that the application uses
+   64-bits long pseudo-random Cids, in order to have globally unique
+   Context Identifiers.  Cid SHOULD be unique in the sets of all
+   security contexts used by all the endpoints.  If it is not the case,
+   it is the role of the application to specify how to handle
+   collisions.
 
 
 
@@ -604,12 +604,12 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
    Protection of CoAP Options can be summarized as follows:
 
    o  To prevent information leakage, Uri-Path and Uri-Query SHALL be
-      encrypted.  If Proxy-Uri is used and thus Uri-* are not present,
-      then OSCOAP implementation MUST first split the Proxy-Uri into the
-      unencrypted Uri Section 5.2 and the Uri-Path/Query options
-      (according to section 6.4 of [RFC7252]), replace the Proxy-Uri
-      value with the unencrypted Uri, and encrypt Uri-Path/Query, which
-      will then be carried in the ciphertext.  This means that the proxy
+      encrypted.  If Proxy-Uri is used, Uri-* are not present in the
+      unprotected CoAP message.  The OSCOAP implementation MUST first
+      split the Proxy-Uri value into the unencrypted Uri Section 5.2 and
+      the Uri-Path/Query options (according to section 6.4 of
+      [RFC7252]), replace the Proxy-Uri value with the unencrypted Uri,
+      and encrypt Uri-Path/Query, which will then be carried in the
 
 
 
@@ -618,9 +618,11 @@ Selander, et al.          Expires June 12, 2017                [Page 11]
 Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
 
-      will not be able to see that Uri-Path and Uri-Query options are
-      present in the message and will thus process the message as
-      indicated by CoAP.
+      ciphertext.  This means that the Proxy-Uri option is present in
+      the protected CoAP message, while a proxy will not be able to read
+      Uri-Path and Uri-Query, which are part of the encrypted options,
+      and will thus process the message (including the Proxy-Uri option)
+      as indicated by CoAP.
 
    o  The CoAP Options Uri-Host, Uri-Port, Proxy-Uri, and Proxy-Scheme
       SHALL neither be encrypted, nor integrity protected.  Note that
@@ -664,8 +666,6 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
    Unless specified otherwise, CoAP options not listed in Figure 4 SHALL
    be encrypted and integrity protected.
-
-
 
 
 
@@ -871,7 +871,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
       *  ver: uint, contains the CoAP version number of the unprotected
          CoAP message, as defined in Section 3 of [RFC7252]
 
-      *  code: bstr, contains is the CoAP Code of the unprotected CoAP
+      *  code: uint, contains is the CoAP Code of the unprotected CoAP
          message, as defined in Section 3 of [RFC7252].
 
       *  alg: int, contains the Algorithm from the security context used
@@ -914,7 +914,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
             external_aad_req = [
                ver : uint,
-               code : bstr,
+               code : uint,
                alg : int,
                unencrypted-uri : tstr,
                ? mac-previous-block : bstr
@@ -922,7 +922,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
             external_aad_resp = [
                ver : uint,
-               code : bstr,
+               code : uint,
                alg : int,
                cid : bstr,
                id : bstr,
