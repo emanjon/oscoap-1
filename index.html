@@ -300,9 +300,10 @@ address {
 <link href="#rfc.section.7" rel="Chapter" title="7 Security Considerations"/>
 <link href="#rfc.section.8" rel="Chapter" title="8 Privacy Considerations"/>
 <link href="#rfc.section.9" rel="Chapter" title="9 IANA Considerations"/>
-<link href="#rfc.section.9.1" rel="Chapter" title="9.1 CoAP Option Number Registration"/>
-<link href="#rfc.section.9.2" rel="Chapter" title="9.2 Media Type Registrations"/>
-<link href="#rfc.section.9.3" rel="Chapter" title="9.3 CoAP Content Format Registration"/>
+<link href="#rfc.section.9.1" rel="Chapter" title="9.1 CoAP Option Numbers Registry"/>
+<link href="#rfc.section.9.2" rel="Chapter" title="9.2 COSE Header Parameters Registry"/>
+<link href="#rfc.section.9.3" rel="Chapter" title="9.3 Media Type Registrations"/>
+<link href="#rfc.section.9.4" rel="Chapter" title="9.4 CoAP Content Format Registration"/>
 <link href="#rfc.section.10" rel="Chapter" title="10 Acknowledgments"/>
 <link href="#rfc.references" rel="Chapter" title="11 References"/>
 <link href="#rfc.references.1" rel="Chapter" title="11.1 Normative References"/>
@@ -329,7 +330,7 @@ address {
 
   <meta name="dct.creator" content="Selander, G., Mattsson, J., Palombini, F., and L. Seitz" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-ietf-core-object-security-latest" />
-  <meta name="dct.issued" scheme="ISO8601" content="2016-12-12" />
+  <meta name="dct.issued" scheme="ISO8601" content="2016-12-13" />
   <meta name="dct.abstract" content="This memo defines Object Security of CoAP (OSCOAP), a method for application layer protection of message exchanges with the Constrained Application Protocol (CoAP), using the CBOR Object Signing and Encryption (COSE) format. OSCOAP provides end-to-end encryption, integrity and replay protection to CoAP payload, options, and header fields, as well as a secure binding between CoAP request and response messages. The use of OSCOAP is signaled with the CoAP option Object-Security, also defined in this memo." />
   <meta name="description" content="This memo defines Object Security of CoAP (OSCOAP), a method for application layer protection of message exchanges with the Constrained Application Protocol (CoAP), using the CBOR Object Signing and Encryption (COSE) format. OSCOAP provides end-to-end encryption, integrity and replay protection to CoAP payload, options, and header fields, as well as a secure binding between CoAP request and response messages. The use of OSCOAP is signaled with the CoAP option Object-Security, also defined in this memo." />
 
@@ -353,7 +354,7 @@ address {
   <td class="right">F. Palombini</td>
 </tr>
 <tr>
-  <td class="left">Expires: June 15, 2017</td>
+  <td class="left">Expires: June 16, 2017</td>
   <td class="right">Ericsson AB</td>
 </tr>
 <tr>
@@ -366,7 +367,7 @@ address {
 </tr>
 <tr>
   <td class="left"></td>
-  <td class="right">December 12, 2016</td>
+  <td class="right">December 13, 2016</td>
 </tr>
 
     	
@@ -386,7 +387,7 @@ address {
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on June 15, 2017.</p>
+<p>This Internet-Draft will expire on June 16, 2017.</p>
 <h1 id="rfc.copyrightnotice">
   <a href="#rfc.copyrightnotice">Copyright Notice</a>
 </h1>
@@ -421,9 +422,10 @@ address {
 </ul><li>7.   <a href="#rfc.section.7">Security Considerations</a></li>
 <li>8.   <a href="#rfc.section.8">Privacy Considerations</a></li>
 <li>9.   <a href="#rfc.section.9">IANA Considerations</a></li>
-<ul><li>9.1.   <a href="#rfc.section.9.1">CoAP Option Number Registration</a></li>
-<li>9.2.   <a href="#rfc.section.9.2">Media Type Registrations</a></li>
-<li>9.3.   <a href="#rfc.section.9.3">CoAP Content Format Registration</a></li>
+<ul><li>9.1.   <a href="#rfc.section.9.1">CoAP Option Numbers Registry</a></li>
+<li>9.2.   <a href="#rfc.section.9.2">COSE Header Parameters Registry</a></li>
+<li>9.3.   <a href="#rfc.section.9.3">Media Type Registrations</a></li>
+<li>9.4.   <a href="#rfc.section.9.4">CoAP Content Format Registration</a></li>
 </ul><li>10.   <a href="#rfc.section.10">Acknowledgments</a></li>
 <li>11.   <a href="#rfc.references">References</a></li>
 <ul><li>11.1.   <a href="#rfc.references.1">Normative References</a></li>
@@ -848,7 +850,7 @@ external_aad_resp = [
 <p id="rfc.section.8.p.2">CoAP headers sent in plaintext allow for example matching of CON and ACK (CoAP Message Identifier), matching of request and responses (Token) and traffic analysis.</p>
 <h1 id="rfc.section.9"><a href="#rfc.section.9">9.</a> <a href="#iana" id="iana">IANA Considerations</a></h1>
 <p id="rfc.section.9.p.1">Note to RFC Editor: Please replace all occurrences of "[[this document]]" with the RFC number of this specification.</p>
-<h1 id="rfc.section.9.1"><a href="#rfc.section.9.1">9.1.</a> <a href="#coap-option-number-registration" id="coap-option-number-registration">CoAP Option Number Registration</a></h1>
+<h1 id="rfc.section.9.1"><a href="#rfc.section.9.1">9.1.</a> <a href="#coap-option-numbers-registry" id="coap-option-numbers-registry">CoAP Option Numbers Registry</a></h1>
 <p id="rfc.section.9.1.p.1">The Object-Security option is added to the CoAP Option Numbers registry:</p>
 <pre>
 +--------+-----------------+-------------------+
@@ -857,8 +859,17 @@ external_aad_resp = [
 |  TBD   | Object-Security | [[this document]] |
 +--------+-----------------+-------------------+
 </pre>
-<h1 id="rfc.section.9.2"><a href="#rfc.section.9.2">9.2.</a> <a href="#media-type-registrations" id="media-type-registrations">Media Type Registrations</a></h1>
-<p id="rfc.section.9.2.p.1">The "application/oscon" media type is added to the Media Types registry:</p>
+<h1 id="rfc.section.9.2"><a href="#rfc.section.9.2">9.2.</a> <a href="#cose-header-parameters-registry" id="cose-header-parameters-registry">COSE Header Parameters Registry</a></h1>
+<p id="rfc.section.9.2.p.1">The "sid" parameter is added to the COSE Header Parameter Registry:</p>
+<pre>
++------+-------+------------+----------------+-------------------+
+| name | label | value type | value registry | description       |
++------+-------+------------+----------------+-------------------+
+|  sid |  TBD  |    bstr    |                | Sender Identifier |
++------+-------+------------+----------------+-------------------+
+</pre>
+<h1 id="rfc.section.9.3"><a href="#rfc.section.9.3">9.3.</a> <a href="#media-type-registrations" id="media-type-registrations">Media Type Registrations</a></h1>
+<p id="rfc.section.9.3.p.1">The "application/oscon" media type is added to the Media Types registry:</p>
 <pre>
     Type name: application
 
@@ -901,8 +912,8 @@ external_aad_resp = [
 
     Provisional registration? No
 </pre>
-<h1 id="rfc.section.9.3"><a href="#rfc.section.9.3">9.3.</a> <a href="#coap-content-format-registration" id="coap-content-format-registration">CoAP Content Format Registration</a></h1>
-<p id="rfc.section.9.3.p.1">The "application/oscon" content format is added to the CoAP Content Format registry:</p>
+<h1 id="rfc.section.9.4"><a href="#rfc.section.9.4">9.4.</a> <a href="#coap-content-format-registration" id="coap-content-format-registration">CoAP Content Format Registration</a></h1>
+<p id="rfc.section.9.4.p.1">The "application/oscon" content format is added to the CoAP Content Format registry:</p>
 <pre>
 +-------------------+----------+----+-------------------+
 | Media type        | Encoding | ID | Reference         |
@@ -1033,7 +1044,7 @@ external_aad_resp = [
 <p/>
 
 <ul>
-  <li>The header parameters of the COSE object are the Context Identifier (Cid) and the Sequence Number (Seq) (also part of the Transaction Identifier (Tid)) if the message is a request, and Seq only if the message is a response (see <a href="#sec-obj-cose">Section 5</a>).  <ul><li>The size of Cid depends on the number of simultaneous clients, as discussed in <a href="#sec-context-est-section">Section 3.2</a></li><li>The size of Seq is variable, and increases with the number of messages exchanged.</li><li>As the AEAD nonce is generated from the padded Sequence Number and a previously agreed upon context IV it is not required to send the whole nonce in the message.</li></ul></li>
+  <li>The header parameters of the COSE object are the Context Identifier (Cid) and the Sequence Number (Seq) (also part of the Transaction Identifier (Tid)) if the message is a request, and Seq only if the message is a response (see <a href="#sec-obj-cose">Section 5</a>).  <ul><li>The size of Cid is recommended to be 64 bits, but may be shorter, as discussed in <a href="#cid-est">Section 3.2.2</a></li><li>The size of Seq is variable, and increases with the number of messages exchanged.</li><li>As the AEAD nonce is generated from the padded Sequence Number and a previously agreed upon context IV it is not required to send the whole nonce in the message.</li></ul></li>
   <li>The Cipher Text, excluding the Tag, is the encryption of the payload and the encrypted options <a href="#coap-headers-and-options">Section 4</a>, which are present in the unprotected CoAP message.</li>
   <li>The size of the Tag depends on the Algorithm. For example, for the algorithm AES-CCM-64-64-128, the Tag is 8 bytes.</li>
   <li>The overhead from the COSE format itself depends on the sizes of the previous fields, and is of the order of 10 bytes.</li>
@@ -1055,11 +1066,11 @@ Message Overhead = Cid + Seq + Tag + COSE Overhead
 <p class="figure">Figure 7: OSCOAP message expansion</p>
 <h1 id="rfc.appendix.A.4"><a href="#rfc.appendix.A.4">A.4.</a> <a href="#appendix-b" id="appendix-b">Example</a></h1>
 <p id="rfc.section.A.4.p.1">This section gives an example of message expansion in a request with OSCOAP.</p>
-<p id="rfc.section.A.4.p.2">In this example we assume an extreme 4-byte Cid, based on the assumption of an ACE deployment with billions of clients requesting access to this particular server. (A typical Cid, will be 1-2 byte as is discussed in <a href="#appendix-a2">Appendix A.2</a>.)</p>
+<p id="rfc.section.A.4.p.2">In this example we assume an 8-byte Cid.</p>
 <p/>
 
 <ul>
-  <li>Cid: 0xa1534e3c</li>
+  <li>Cid: 0xa1534e3c9cecad84</li>
 </ul>
 <p id="rfc.section.A.4.p.4">In the example the sequence number is 225, requiring 1 byte to encode. (The size of Seq could be larger depending on how many messages that has been sent as is discussed in <a href="#appendix-a2">Appendix A.2</a>.)</p>
 <p/>
@@ -1078,27 +1089,28 @@ Message Overhead = Cid + Seq + Tag + COSE Overhead
 <div id="mess-exp-ex"/>
 <pre>
 [
-  h'a20444a1534e3c0641e2', # protected:
-                             {04:h'a1534e3c',
-                              06:h'e2'}
-  {},                      # unprotected: -
-  Tag                      # ciphertext + 8 byte authentication tag
+  h'a20448a1534e3c9cecad840641e2', / protected:
+                                      {04:h'a1534e3c9cecad84',
+                                       06:h'e2'} /
+  {},                              / unprotected: - /
+  Ciph + Tag                       / ciphertext + 8 byte 
+                                      authentication tag /
 ]
 </pre>
 <p class="figure">Figure 8: Example of message expansion</p>
 <p id="rfc.section.A.4.p.9">Note that the encrypted CoAP options and payload are omitted since we target the message expansion (see <a href="#appendix-a3">Appendix A.3</a>). Therefore the size of the COSE Cipher Text equals the size of the Tag, which is 8 bytes.</p>
-<p id="rfc.section.A.4.p.10">The COSE object encodes to a total size of 22 bytes, which is the message expansion in this example. The COSE overhead in this example is 22 - (4 + 1 + 8) = 9 bytes, according to the formula in <a href="#mess-exp-formula">Figure 7</a>. Note that in this example two bytes in the COSE overhead are used to encode the length of Cid and the length of Seq.</p>
+<p id="rfc.section.A.4.p.10">The COSE object encodes to a total size of 26 bytes, which is the message expansion in this example. The COSE overhead in this example is 26 - (8 + 1 + 8) = 9 bytes, according to the formula in <a href="#mess-exp-formula">Figure 7</a>. Note that in this example two bytes in the COSE overhead are used to encode the length of Cid and the length of Seq.</p>
 <p><a href="#table-aes-ccm">Figure 9</a> summarizes these results.</p>
 <div id="rfc.figure.9"/>
 <div id="table-aes-ccm"/>
 <pre>
-+---------+---------+----------+------------+
-|   Tid   |   Tag   | COSE OH  | Message OH |
-+---------+---------+----------+------------+
-| 5 bytes | 8 bytes |  9 bytes |  22 bytes  |
-+---------+---------+----------+------------+
++---------+---------+---------+----------+------------+
+|   Cid   |   Seq   |   Tag   | COSE OH  | Message OH |
++---------+---------+---------+----------+------------+
+| 8 bytes | 1 byte  | 8 bytes |  9 bytes |  22 bytes  |
++---------+---------+---------+----------+------------+
 </pre>
-<p class="figure">Figure 9: Message overhead for a 5-byte Tid and 8-byte Tag.</p>
+<p class="figure">Figure 9: Message overhead for a 8-byte Cid, 1-byte Seq and 8-byte Tag.</p>
 <h1 id="rfc.appendix.B"><a href="#rfc.appendix.B">Appendix B.</a> <a href="#appendix-d" id="appendix-d">Examples</a></h1>
 <p id="rfc.section.B.p.1">This section gives examples of OSCOAP. The message exchanges are made, based on the assumption that there is a security context established between client and server. For simplicity, these examples only indicate the content of the messages without going into detail of the COSE message format.</p>
 <h1 id="rfc.appendix.B.1"><a href="#rfc.appendix.B.1">B.1.</a> <a href="#secure-access-to-sensor" id="secure-access-to-sensor">Secure Access to Sensor</a></h1>
@@ -1425,6 +1437,6 @@ Client  Proxy  Server
   </address>
 </div>
 
-  <div class="github-fork-ribbon-wrapper"><div class="github-fork-ribbon"><a href="https://github.com/{SLUG}">Fork me on GitHub</a></div></div>
+  <div class="github-fork-ribbon-wrapper"><div class="github-fork-ribbon"><a href="https://github.com/core-wg/oscoap">Fork me on GitHub</a></div></div>
 </body>
 </html>
