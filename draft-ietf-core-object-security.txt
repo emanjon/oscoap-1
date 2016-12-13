@@ -102,7 +102,7 @@ Table of Contents
      A.1.  Length of the Object-Security Option  . . . . . . . . . .  29
      A.2.  Size of the COSE Object . . . . . . . . . . . . . . . . .  29
      A.3.  Message Expansion . . . . . . . . . . . . . . . . . . . .  30
-     A.4.  Example . . . . . . . . . . . . . . . . . . . . . . . . .  30
+     A.4.  Example . . . . . . . . . . . . . . . . . . . . . . . . .  31
    Appendix B.  Examples . . . . . . . . . . . . . . . . . . . . . .  32
      B.1.  Secure Access to Sensor . . . . . . . . . . . . . . . . .  32
      B.2.  Secure Subscribe to Sensor  . . . . . . . . . . . . . . .  34
@@ -913,9 +913,9 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
       *  unencrypted-uri: tstr, contains the part of the URI which is
          not encrypted, and is composed of the request scheme (Proxy-
-         Scheme if present), Uri-Host and Uri-Port options according to
-         the method described in Section 6.5 of [RFC7252], if the
-         message is a CoAP request;
+         Scheme if present), Uri-Host and Uri-Port (if present) options
+         according to the method described in Section 6.5 of [RFC7252],
+         if the message is a CoAP request;
 
       *  cid : bstr, contains the cid for the request (which is same as
          the cid for the response).
@@ -1034,6 +1034,11 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
    protected CoAP request using a security context associated with the
    target resource (see Section 3.2.2).
 
+   When using Uri-Host or Proxy-Uri in the construction of the request,
+   the <host> value MUST be a reg-name ([RFC3986]), and not an IP-
+   literal or IPv4address, for canonicalization of the destination
+   address.
+
    1.  Compute the COSE object as specified in Section 5
 
        *  the AEAD nonce is created by XORing the Sender IV (context IV)
@@ -1054,17 +1059,17 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
        *  The CoAP header is the same as the unprotected CoAP message.
 
-       *  The CoAP options, which are encrypted and not duplicate
-          (Section 4) are removed.  Any duplicate option that is present
-          has its unencrypted value.  The Object-Security option is
-          added.
-
 
 
 Selander, et al.          Expires June 16, 2017                [Page 19]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
+
+       *  The CoAP options, which are encrypted and not duplicate
+          (Section 4) are removed.  Any duplicate option that is present
+          has its unencrypted value.  The Object-Security option is
+          added.
 
        *  If the message type of the unprotected CoAP message does not
           allow Payload, then the value of the Object-Security option is
@@ -1110,17 +1115,19 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
           store the Tag of each last-received block to compute the
           following.
 
-   3.  Compose the AEAD nonce by XORing the Recipient IV (context IV)
-       with the padded Partial IV parameter, received in the COSE
-       Object.
-
-
 
 
 Selander, et al.          Expires June 16, 2017                [Page 20]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
+
+       *  Note that the server's <host> value MUST be a reg-name
+          ([RFC3986]), and not an IP-literal or IPv4address.
+
+   3.  Compose the AEAD nonce by XORing the Recipient IV (context IV)
+       with the padded Partial IV parameter, received in the COSE
+       Object.
 
    4.  Retrieve the Recipient Key.
 
@@ -1164,19 +1171,17 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
        *  The CoAP header is the same as the unprotected CoAP message.
 
-       *  The CoAP options which are encrypted and not duplicate
-          (Section 4) are removed.  Any duplicate option that is present
-          has its unencrypted value.  The Object-Security option is
-          added.
-
-
-
 
 
 Selander, et al.          Expires June 16, 2017                [Page 21]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
+
+       *  The CoAP options which are encrypted and not duplicate
+          (Section 4) are removed.  Any duplicate option that is present
+          has its unencrypted value.  The Object-Security option is
+          added.
 
        *  If the message type of the unprotected CoAP message does not
           allow Payload, then the value of the Object-Security option is
@@ -1222,17 +1227,15 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
    4.  Retrieve the Recipient Key.
 
-   5.  Verify and decrypt the message.  If the verification fails, the
-       client MUST stop processing the response.
-
-
-
 
 
 Selander, et al.          Expires June 16, 2017                [Page 22]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
+
+   5.  Verify and decrypt the message.  If the verification fails, the
+       client MUST stop processing the response.
 
    6.  If the message verifies, update the Recipient Replay Window, as
        described in Section 6.1.
@@ -1279,9 +1282,6 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
    and server.  EDHOC [I-D.selander-ace-cose-ecdhe] describes an
    augmented Diffie-Hellman key exchange to produce forward secret
    keying material and agree on crypto algorithms necessary for OSCOAP,
-   authenticated with pre-established credentials.  These pre-
-   established credentials may, in turn, be provisioned using a trusted
-   third party such as described in the OAuth-based ACE framework
 
 
 
@@ -1290,6 +1290,9 @@ Selander, et al.          Expires June 16, 2017                [Page 23]
 Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
 
+   authenticated with pre-established credentials.  These pre-
+   established credentials may, in turn, be provisioned using a trusted
+   third party such as described in the OAuth-based ACE framework
    [I-D.ietf-ace-oauth-authz].  An OSCOAP profile of ACE is described in
    [I-D.seitz-ace-oscoap-profile].
 
@@ -1335,9 +1338,6 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
    distinguished from each other as there is no padding supplied by the
    current set of encryption algorithms.  Some information can be
    determined even from looking at boundary conditions.  An example of
-   this would be returning an integer between 0 and 100 where lengths of
-   1, 2 and 3 will provide information about where in the range things
-   are.  Three different methods to deal with this are: 1) ensure that
 
 
 
@@ -1346,6 +1346,9 @@ Selander, et al.          Expires June 16, 2017                [Page 24]
 Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
 
+   this would be returning an integer between 0 and 100 where lengths of
+   1, 2 and 3 will provide information about where in the range things
+   are.  Three different methods to deal with this are: 1) ensure that
    all messages are the same length.  For example using 0 and 1 instead
    of 'yes' and 'no'.  2) Use a character which is not part of the
    responses to pad to a fixed length.  For example, pad with a space to
@@ -1391,9 +1394,6 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
     +------+-------+------------+----------------+-------------------+
     |  sid |  TBD  |    bstr    |                | Sender Identifier |
     +------+-------+------------+----------------+-------------------+
-
-
-
 
 
 
@@ -1519,6 +1519,11 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
               DOI 10.17487/RFC7959, August 2016,
               <http://www.rfc-editor.org/info/rfc7959>.
 
+   [RFC3986]  Berners-Lee, T., Fielding, R., and L. Masinter, "Uniform
+              Resource Identifier (URI): Generic Syntax", STD 66,
+              RFC 3986, DOI 10.17487/RFC3986, January 2005,
+              <http://www.rfc-editor.org/info/rfc3986>.
+
 11.2.  Informative References
 
    [I-D.selander-ace-cose-ecdhe]
@@ -1554,12 +1559,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
               draft-seitz-ace-oscoap-profile-01 (work in progress),
               October 2016.
 
-   [I-D.ietf-core-coap-tcp-tls]
-              Bormann, C., Lemay, S., Tschofenig, H., Hartke, K.,
-              Silverajan, B., and B. Raymor, "CoAP (Constrained
-              Application Protocol) over TCP, TLS, and WebSockets",
-              draft-ietf-core-coap-tcp-tls-05 (work in progress),
-              October 2016.
+
 
 
 
@@ -1569,6 +1569,13 @@ Selander, et al.          Expires June 16, 2017                [Page 28]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
+
+   [I-D.ietf-core-coap-tcp-tls]
+              Bormann, C., Lemay, S., Tschofenig, H., Hartke, K.,
+              Silverajan, B., and B. Raymor, "CoAP (Constrained
+              Application Protocol) over TCP, TLS, and WebSockets",
+              draft-ietf-core-coap-tcp-tls-05 (work in progress),
+              October 2016.
 
    [RFC5869]  Krawczyk, H. and P. Eronen, "HMAC-based Extract-and-Expand
               Key Derivation Function (HKDF)", RFC 5869,
@@ -1611,13 +1618,6 @@ A.2.  Size of the COSE Object
 
    o  data incurred by the COSE format itself (including CBOR encoding).
 
-   Let's analyze the contributions one at a time:
-
-   o  The header parameters of the COSE object are the Context
-      Identifier (Cid) and the Sequence Number (Seq) (also part of the
-      Transaction Identifier (Tid)) if the message is a request, and Seq
-      only if the message is a response (see Section 5).
-
 
 
 
@@ -1625,6 +1625,13 @@ Selander, et al.          Expires June 16, 2017                [Page 29]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
+
+   Let's analyze the contributions one at a time:
+
+   o  The header parameters of the COSE object are the Context
+      Identifier (Cid) and the Sequence Number (Seq) (also part of the
+      Transaction Identifier (Tid)) if the message is a request, and Seq
+      only if the message is a response (see Section 5).
 
       *  The size of Cid is recommended to be 64 bits, but may be
          shorter, as discussed in Section 3.2.2
@@ -1665,14 +1672,7 @@ A.3.  Message Expansion
    Therefore the OSCOAP message expansion is due to Cid (if present),
    Seq, Tag, and COSE overhead:
 
-            Message Overhead = Cid + Seq + Tag + COSE Overhead
 
-                    Figure 7: OSCOAP message expansion
-
-A.4.  Example
-
-   This section gives an example of message expansion in a request with
-   OSCOAP.
 
 
 
@@ -1681,6 +1681,15 @@ Selander, et al.          Expires June 16, 2017                [Page 30]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
+
+            Message Overhead = Cid + Seq + Tag + COSE Overhead
+
+                    Figure 7: OSCOAP message expansion
+
+A.4.  Example
+
+   This section gives an example of message expansion in a request with
+   OSCOAP.
 
    In this example we assume an 8-byte Cid.
 
@@ -1722,6 +1731,13 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
    Figure 9 summarizes these results.
 
+
+
+Selander, et al.          Expires June 16, 2017                [Page 31]
+
+Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
+
+
           +---------+---------+---------+----------+------------+
           |   Cid   |   Seq   |   Tag   | COSE OH  | Message OH |
           +---------+---------+---------+----------+------------+
@@ -1730,13 +1746,6 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
     Figure 9: Message overhead for a 8-byte Cid, 1-byte Seq and 8-byte
                                    Tag.
-
-
-
-Selander, et al.          Expires June 16, 2017                [Page 31]
-
-Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
-
 
 Appendix B.  Examples
 
@@ -1756,15 +1765,6 @@ B.1.  Secure Access to Sensor
    protected (see Section 4).  In the response, the CoAP Payload is
    encrypted and integrity protected, and the CoAP header fields Code
    and Version are integrity protected.
-
-
-
-
-
-
-
-
-
 
 
 

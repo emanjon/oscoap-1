@@ -753,7 +753,7 @@ Verify request with   |                       |
 <ul>
   <li>the "context" parameter, which has value "Encrypted"</li>
   <li>the "protected" parameter, which includes the "protected" part of the "Headers" field;</li>
-  <li>the "external_aad" is a serialized CBOR array <a href="#aad">Figure 6</a> where the exact content is different in requests (external_aad_req) and repsonses (external_aad_resp). It contains:  <ul><li>ver: uint, contains the CoAP version number, as defined in Section 3 of <a href="#RFC7252">[RFC7252]</a></li><li>code: uint, contains is the CoAP Code of the unprotected CoAP message, as defined in Section 3 of <a href="#RFC7252">[RFC7252]</a>.</li><li>alg: int, contains the Algorithm from the security context used for the exchange (see <a href="#sec-context-def-section">Section 3.1</a>);</li><li>unencrypted-uri: tstr, contains the part of the URI which is not encrypted, and is composed of the request scheme (Proxy-Scheme if present), Uri-Host and Uri-Port options according to the method described in Section 6.5 of <a href="#RFC7252">[RFC7252]</a>, if the message is a CoAP request;</li><li>cid : bstr, contains the cid for the request (which is same as the cid for the response).</li><li>id : bstr, is the identifier for the endpoint sending the request and verifying the response; which means that for the endpoint sending the response, the id has value Recipient ID, while for the endpoint receiving the response, id has the value Sender ID.</li><li>seq : bstr, is the value of the "Partial IV" in the COSE object of the request (see Section 5).</li><li>tag-previous-block: bstr, contains the AEAD Tag of the message containing the previous block in the sequence, as enumerated by Block1 in the case of a request and Block2 in the case of a response, if the message is fragmented using a block option <a href="#RFC7959">[RFC7959]</a>.</li></ul></li>
+  <li>the "external_aad" is a serialized CBOR array <a href="#aad">Figure 6</a> where the exact content is different in requests (external_aad_req) and repsonses (external_aad_resp). It contains:  <ul><li>ver: uint, contains the CoAP version number, as defined in Section 3 of <a href="#RFC7252">[RFC7252]</a></li><li>code: uint, contains is the CoAP Code of the unprotected CoAP message, as defined in Section 3 of <a href="#RFC7252">[RFC7252]</a>.</li><li>alg: int, contains the Algorithm from the security context used for the exchange (see <a href="#sec-context-def-section">Section 3.1</a>);</li><li>unencrypted-uri: tstr, contains the part of the URI which is not encrypted, and is composed of the request scheme (Proxy-Scheme if present), Uri-Host and Uri-Port (if present) options according to the method described in Section 6.5 of <a href="#RFC7252">[RFC7252]</a>, if the message is a CoAP request;</li><li>cid : bstr, contains the cid for the request (which is same as the cid for the response).</li><li>id : bstr, is the identifier for the endpoint sending the request and verifying the response; which means that for the endpoint sending the response, the id has value Recipient ID, while for the endpoint receiving the response, id has the value Sender ID.</li><li>seq : bstr, is the value of the "Partial IV" in the COSE object of the request (see Section 5).</li><li>tag-previous-block: bstr, contains the AEAD Tag of the message containing the previous block in the sequence, as enumerated by Block1 in the case of a request and Block2 in the case of a response, if the message is fragmented using a block option <a href="#RFC7959">[RFC7959]</a>.</li></ul></li>
 </ul>
 <div id="rfc.figure.6"/>
 <div id="aad"/>
@@ -790,6 +790,7 @@ external_aad_resp = [
 <p id="rfc.section.6.1.p.6">If the CoAP client receives a response with the Object-Security option, then the client SHALL verify the integrity of the response, using the Tid of its own associated request in the AAD, as described in <a href="#verif-coap-resp">Section 6.5</a>.</p>
 <h1 id="rfc.section.6.2"><a href="#rfc.section.6.2">6.2.</a> <a href="#protected-coap-formatting-req" id="protected-coap-formatting-req">Protecting the Request</a></h1>
 <p id="rfc.section.6.2.p.1">Given an unprotected CoAP request, including header, options and payload, the client SHALL perform the following steps to create a protected CoAP request using a security context associated with the target resource (see <a href="#cid-est">Section 3.2.2</a>).</p>
+<p id="rfc.section.6.2.p.2">When using Uri-Host or Proxy-Uri in the construction of the request, the &lt;host&gt; value MUST be a reg-name (<a href="#RFC3986">[RFC3986]</a>), and not an IP-literal or IPv4address, for canonicalization of the destination address.</p>
 <p/>
 
 <ol>
@@ -805,7 +806,7 @@ external_aad_resp = [
 
 <ol>
   <li>Verify the Sequence Number in the Partial IV parameter, as described in <a href="#replay-protection-section">Section 6.1</a>. If it cannot be verified that the Sequence Number has not been received before, the server MUST stop processing the request.</li>
-  <li>Recreate the Additional Authenticated Data, as described in <a href="#sec-obj-cose">Section 5</a>.  <ul><li>If the block option is used, the AAD includes the AEAD Tag from the previous block received (from the second block and following) <a href="#AAD">Section 5.2</a>. This means that the endpoint MUST store the Tag of each last-received block to compute the following.</li></ul></li>
+  <li>Recreate the Additional Authenticated Data, as described in <a href="#sec-obj-cose">Section 5</a>.  <ul><li>If the block option is used, the AAD includes the AEAD Tag from the previous block received (from the second block and following) <a href="#AAD">Section 5.2</a>. This means that the endpoint MUST store the Tag of each last-received block to compute the following.</li><li>Note that the server's &lt;host&gt; value MUST be a reg-name (<a href="#RFC3986">[RFC3986]</a>), and not an IP-literal or IPv4address.</li></ul></li>
   <li>Compose the AEAD nonce by XORing the Recipient IV (context IV) with the padded Partial IV parameter, received in the COSE Object.</li>
   <li>Retrieve the Recipient Key.</li>
   <li>Verify and decrypt the message. If the verification fails, the server MUST stop processing the request.</li>
@@ -964,6 +965,12 @@ external_aad_resp = [
         <b id="RFC7959">[RFC7959]</b>
       </td>
       <td class="top"><a>Bormann, C.</a> and <a>Z. Shelby</a>, "<a href="http://tools.ietf.org/html/rfc7959">Block-Wise Transfers in the Constrained Application Protocol (CoAP)</a>", RFC 7959, DOI 10.17487/RFC7959, August 2016.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC3986">[RFC3986]</b>
+      </td>
+      <td class="top"><a>Berners-Lee, T.</a>, <a>Fielding, R.</a> and <a>L. Masinter</a>, "<a href="http://tools.ietf.org/html/rfc3986">Uniform Resource Identifier (URI): Generic Syntax</a>", STD 66, RFC 3986, DOI 10.17487/RFC3986, January 2005.</td>
     </tr>
   </tbody>
 </table>
