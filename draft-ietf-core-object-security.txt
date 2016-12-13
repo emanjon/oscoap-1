@@ -215,9 +215,9 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
    normative meanings.
 
    Readers are expected to be familiar with the terms and concepts
-   described in [RFC7252] and [RFC7641].  Terminology for constrained
-   environments, such as "constrained device", "constrained-node
-   network", is defined in [RFC7228].
+   described in [RFC7252] and [RFC7641].  Readers are also expected to
+   be familiar with [RFC7049] and understand
+   [I-D.greevenbosch-appsawg-cbor-cddl].  Terminology for constrained
 
 
 
@@ -225,6 +225,9 @@ Selander, et al.          Expires June 16, 2017                 [Page 4]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
+
+   environments, such as "constrained device", "constrained-node
+   network", is defined in [RFC7228].
 
 2.  The Object-Security Option
 
@@ -271,9 +274,6 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
       object is the value of the Object-Security option and the length
       of the Object-Security option is equal to the size of the COSE
       object.  An endpoint receiving a CoAP message without payload,
-      that also contains an empty Object-Security option SHALL treat it
-      as malformed and reject it.
-
 
 
 
@@ -281,6 +281,9 @@ Selander, et al.          Expires June 16, 2017                 [Page 5]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
+
+      that also contains an empty Object-Security option SHALL treat it
+      as malformed and reject it.
 
    More details about the message overhead caused by the Object-Security
    option are given in Appendix A.
@@ -317,9 +320,6 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
    Context Identifiers in the two endpoints are not the same, but they
    are partly mirrored.  Retrieval and use of the security context are
    shown in Figure 3."
-
-
-
 
 
 
@@ -911,11 +911,11 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
       *  alg: int, contains the Algorithm from the security context used
          for the exchange (see Section 3.1);
 
-      *  unencrypted-uri: tstr, contains the part of the URI which is
-         not encrypted, and is composed of the request scheme (Proxy-
-         Scheme if present), Uri-Host and Uri-Port (if present) options
-         according to the method described in Section 6.5 of [RFC7252],
-         if the message is a CoAP request;
+      *  unencrypted-uri: tstr with tag URI, contains the part of the
+         URI which is not encrypted, and is composed of the request
+         scheme (Proxy-Scheme if present), Uri-Host and Uri-Port (if
+         present) options according to the method described in
+         Section 6.5 of [RFC7252], if the message is a CoAP request;
 
       *  cid : bstr, contains the cid for the request (which is same as
          the cid for the response).
@@ -960,7 +960,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
                ver : uint,
                code : uint,
                alg : int,
-               unencrypted-uri : tstr,
+               unencrypted-uri : uri,
                ? tag-previous-block : bstr
             ]
 
@@ -1524,6 +1524,10 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
               RFC 3986, DOI 10.17487/RFC3986, January 2005,
               <http://www.rfc-editor.org/info/rfc3986>.
 
+   [RFC7049]  Bormann, C. and P. Hoffman, "Concise Binary Object
+              Representation (CBOR)", RFC 7049, DOI 10.17487/RFC7049,
+              October 2013, <http://www.rfc-editor.org/info/rfc7049>.
+
 11.2.  Informative References
 
    [I-D.selander-ace-cose-ecdhe]
@@ -1561,10 +1565,6 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
 
 
-
-
-
-
 Selander, et al.          Expires June 16, 2017                [Page 28]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
@@ -1576,6 +1576,12 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
               Application Protocol) over TCP, TLS, and WebSockets",
               draft-ietf-core-coap-tcp-tls-05 (work in progress),
               October 2016.
+
+   [I-D.greevenbosch-appsawg-cbor-cddl]
+              Vigano, C. and H. Birkholz, "CBOR data definition language
+              (CDDL): a notational convention to express CBOR data
+              structures", draft-greevenbosch-appsawg-cbor-cddl-09 (work
+              in progress), September 2016.
 
    [RFC5869]  Krawczyk, H. and P. Eronen, "HMAC-based Extract-and-Expand
               Key Derivation Function (HKDF)", RFC 5869,
@@ -1612,12 +1618,6 @@ A.2.  Size of the COSE Object
 
    o  the Header parameters,
 
-   o  the Cipher Text (excluding the Tag),
-
-   o  the Tag, and
-
-   o  data incurred by the COSE format itself (including CBOR encoding).
-
 
 
 
@@ -1625,6 +1625,12 @@ Selander, et al.          Expires June 16, 2017                [Page 29]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
+
+   o  the Cipher Text (excluding the Tag),
+
+   o  the Tag, and
+
+   o  data incurred by the COSE format itself (including CBOR encoding).
 
    Let's analyze the contributions one at a time:
 
@@ -1669,18 +1675,15 @@ A.3.  Message Expansion
    o  The encrypted options are in the Object-Security option or within
       the payload.
 
-   Therefore the OSCOAP message expansion is due to Cid (if present),
-   Seq, Tag, and COSE overhead:
-
-
-
-
 
 
 Selander, et al.          Expires June 16, 2017                [Page 30]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
+
+   Therefore the OSCOAP message expansion is due to Cid (if present),
+   Seq, Tag, and COSE overhead:
 
             Message Overhead = Cid + Seq + Tag + COSE Overhead
 
@@ -1726,10 +1729,7 @@ A.4.  Example
    The COSE object encodes to a total size of 26 bytes, which is the
    message expansion in this example.  The COSE overhead in this example
    is 26 - (8 + 1 + 8) = 9 bytes, according to the formula in Figure 7.
-   Note that in this example two bytes in the COSE overhead are used to
-   encode the length of Cid and the length of Seq.
 
-   Figure 9 summarizes these results.
 
 
 
@@ -1737,6 +1737,11 @@ Selander, et al.          Expires June 16, 2017                [Page 31]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
+
+   Note that in this example two bytes in the COSE overhead are used to
+   encode the length of Cid and the length of Seq.
+
+   Figure 9 summarizes these results.
 
           +---------+---------+---------+----------+------------+
           |   Cid   |   Seq   |   Tag   | COSE OH  | Message OH |
@@ -1765,11 +1770,6 @@ B.1.  Secure Access to Sensor
    protected (see Section 4).  In the response, the CoAP Payload is
    encrypted and integrity protected, and the CoAP header fields Code
    and Version are integrity protected.
-
-
-
-
-
 
 
 

@@ -476,7 +476,7 @@ Client                                           Server
 <p id="rfc.section.1.p.7">The message protection provided by OSCOAP can alternatively be applied only to the payload of individual messages. We call this object security of content (OSCON) and it is defined in <a href="#mode-payl">Appendix C</a>.</p>
 <h1 id="rfc.section.1.1"><a href="#rfc.section.1.1">1.1.</a> <a href="#terminology" id="terminology">Terminology</a></h1>
 <p id="rfc.section.1.1.p.1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <a href="#RFC2119">[RFC2119]</a>. These words may also appear in this document in lowercase, absent their normative meanings.</p>
-<p id="rfc.section.1.1.p.2">Readers are expected to be familiar with the terms and concepts described in <a href="#RFC7252">[RFC7252]</a> and <a href="#RFC7641">[RFC7641]</a>. Terminology for constrained environments, such as "constrained device", "constrained-node network", is defined in <a href="#RFC7228">[RFC7228]</a>.</p>
+<p id="rfc.section.1.1.p.2">Readers are expected to be familiar with the terms and concepts described in <a href="#RFC7252">[RFC7252]</a> and <a href="#RFC7641">[RFC7641]</a>. Readers are also expected to be familiar with <a href="#RFC7049">[RFC7049]</a> and understand <a href="#I-D.greevenbosch-appsawg-cbor-cddl">[I-D.greevenbosch-appsawg-cbor-cddl]</a>. Terminology for constrained environments, such as "constrained device", "constrained-node network", is defined in <a href="#RFC7228">[RFC7228]</a>.</p>
 <h1 id="rfc.section.2"><a href="#rfc.section.2">2.</a> <a href="#obj-sec-option-section" id="obj-sec-option-section">The Object-Security Option</a></h1>
 <p id="rfc.section.2.p.1">The Object-Security option indicates that OSCOAP is used to protect the CoAP message exchange. The protection is achieved by means of a COSE object included in the protected CoAP message, as detailed in <a href="#sec-obj-cose">Section 5</a>.</p>
 <p id="rfc.section.2.p.2">The Object-Security option is critical, safe to forward, part of the cache key, and not repeatable. <a href="#obj-sec-option">Figure 2</a> illustrates the structure of the Object-Security option.</p>
@@ -753,7 +753,7 @@ Verify request with   |                       |
 <ul>
   <li>the "context" parameter, which has value "Encrypted"</li>
   <li>the "protected" parameter, which includes the "protected" part of the "Headers" field;</li>
-  <li>the "external_aad" is a serialized CBOR array <a href="#aad">Figure 6</a> where the exact content is different in requests (external_aad_req) and repsonses (external_aad_resp). It contains:  <ul><li>ver: uint, contains the CoAP version number, as defined in Section 3 of <a href="#RFC7252">[RFC7252]</a></li><li>code: uint, contains is the CoAP Code of the unprotected CoAP message, as defined in Section 3 of <a href="#RFC7252">[RFC7252]</a>.</li><li>alg: int, contains the Algorithm from the security context used for the exchange (see <a href="#sec-context-def-section">Section 3.1</a>);</li><li>unencrypted-uri: tstr, contains the part of the URI which is not encrypted, and is composed of the request scheme (Proxy-Scheme if present), Uri-Host and Uri-Port (if present) options according to the method described in Section 6.5 of <a href="#RFC7252">[RFC7252]</a>, if the message is a CoAP request;</li><li>cid : bstr, contains the cid for the request (which is same as the cid for the response).</li><li>id : bstr, is the identifier for the endpoint sending the request and verifying the response; which means that for the endpoint sending the response, the id has value Recipient ID, while for the endpoint receiving the response, id has the value Sender ID.</li><li>seq : bstr, is the value of the "Partial IV" in the COSE object of the request (see Section 5).</li><li>tag-previous-block: bstr, contains the AEAD Tag of the message containing the previous block in the sequence, as enumerated by Block1 in the case of a request and Block2 in the case of a response, if the message is fragmented using a block option <a href="#RFC7959">[RFC7959]</a>.</li></ul></li>
+  <li>the "external_aad" is a serialized CBOR array <a href="#aad">Figure 6</a> where the exact content is different in requests (external_aad_req) and repsonses (external_aad_resp). It contains:  <ul><li>ver: uint, contains the CoAP version number, as defined in Section 3 of <a href="#RFC7252">[RFC7252]</a></li><li>code: uint, contains is the CoAP Code of the unprotected CoAP message, as defined in Section 3 of <a href="#RFC7252">[RFC7252]</a>.</li><li>alg: int, contains the Algorithm from the security context used for the exchange (see <a href="#sec-context-def-section">Section 3.1</a>);</li><li>unencrypted-uri: tstr with tag URI, contains the part of the URI which is not encrypted, and is composed of the request scheme (Proxy-Scheme if present), Uri-Host and Uri-Port (if present) options according to the method described in Section 6.5 of <a href="#RFC7252">[RFC7252]</a>, if the message is a CoAP request;</li><li>cid : bstr, contains the cid for the request (which is same as the cid for the response).</li><li>id : bstr, is the identifier for the endpoint sending the request and verifying the response; which means that for the endpoint sending the response, the id has value Recipient ID, while for the endpoint receiving the response, id has the value Sender ID.</li><li>seq : bstr, is the value of the "Partial IV" in the COSE object of the request (see Section 5).</li><li>tag-previous-block: bstr, contains the AEAD Tag of the message containing the previous block in the sequence, as enumerated by Block1 in the case of a request and Block2 in the case of a response, if the message is fragmented using a block option <a href="#RFC7959">[RFC7959]</a>.</li></ul></li>
 </ul>
 <div id="rfc.figure.6"/>
 <div id="aad"/>
@@ -764,7 +764,7 @@ external_aad_req = [
    ver : uint,
    code : uint,
    alg : int,
-   unencrypted-uri : tstr,
+   unencrypted-uri : uri,
    ? tag-previous-block : bstr
 ]
 
@@ -972,6 +972,12 @@ external_aad_resp = [
       </td>
       <td class="top"><a>Berners-Lee, T.</a>, <a>Fielding, R.</a> and <a>L. Masinter</a>, "<a href="http://tools.ietf.org/html/rfc3986">Uniform Resource Identifier (URI): Generic Syntax</a>", STD 66, RFC 3986, DOI 10.17487/RFC3986, January 2005.</td>
     </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC7049">[RFC7049]</b>
+      </td>
+      <td class="top"><a>Bormann, C.</a> and <a>P. Hoffman</a>, "<a href="http://tools.ietf.org/html/rfc7049">Concise Binary Object Representation (CBOR)</a>", RFC 7049, DOI 10.17487/RFC7049, October 2013.</td>
+    </tr>
   </tbody>
 </table>
 <h1 id="rfc.references.2"><a href="#rfc.references.2">11.2.</a> Informative References</h1>
@@ -1018,6 +1024,12 @@ external_aad_resp = [
         <b id="I-D.ietf-core-coap-tcp-tls">[I-D.ietf-core-coap-tcp-tls]</b>
       </td>
       <td class="top"><a>Bormann, C.</a>, <a>Lemay, S.</a>, <a>Tschofenig, H.</a>, <a>Hartke, K.</a>, <a>Silverajan, B.</a> and <a>B. Raymor</a>, "<a href="http://tools.ietf.org/html/draft-ietf-core-coap-tcp-tls-05">CoAP (Constrained Application Protocol) over TCP, TLS, and WebSockets</a>", Internet-Draft draft-ietf-core-coap-tcp-tls-05, October 2016.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="I-D.greevenbosch-appsawg-cbor-cddl">[I-D.greevenbosch-appsawg-cbor-cddl]</b>
+      </td>
+      <td class="top"><a>Vigano, C.</a> and <a>H. Birkholz</a>, "<a href="http://tools.ietf.org/html/draft-greevenbosch-appsawg-cbor-cddl-09">CBOR data definition language (CDDL): a notational convention to express CBOR data structures</a>", Internet-Draft draft-greevenbosch-appsawg-cbor-cddl-09, September 2016.</td>
     </tr>
     <tr>
       <td class="reference">
