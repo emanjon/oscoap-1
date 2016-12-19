@@ -804,7 +804,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
    Section 6.2 and Section 6.4).
 
    Except for the special options described in the subsections, the
-   sending endpoint SHALL not use the outer options of class E.
+   sending endpoint SHALL NOT use the outer options of class E.
    However, note that an intermediary may, legimitimately or not, add,
    change or remove the value of an outer option.
 
@@ -823,8 +823,8 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
    SHOULD be an outer Max-Age option with value zero to prevent caching
    of responses (see Section 5.6.1 of [RFC7252]).
 
-   The outer Max-Age option SHALL neither be encrypted nor integrity
-   protected.
+   The outer Max-Age option SHALL NOT be encrypted and SHALL NOT be
+   integrity protected.
 
 4.3.1.2.  Observe
 
