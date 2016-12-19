@@ -371,7 +371,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
       use for encryption.  Its value is immutable once the security
       context is established.
 
-   o  Base Key (base_key).  Variable length, uniformly random byte
+   o  Base Key (master_secret).  Variable length, uniformly random byte
       string containing the key used to derive traffic keys and IVs.
       Its value is immutable once the security context is established.
 
@@ -439,7 +439,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
    o  Context Identifier (Cid)
 
-   o  Base Key (base_key)
+   o  Base Key (master_secret)
 
    o  AEAD Algorithm (Alg)
 
@@ -506,19 +506,23 @@ Selander, et al.          Expires June 22, 2017                 [Page 9]
 Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
 
-   base_key and Cid. The same base_key SHOULD NOT be used with more than
-   one Cid.
+   master_secret and Cid. The same master_secret SHOULD NOT be used with
+   more than one Cid.
 
    The KDF MUST be one of the HKDF [RFC5869] algorithms defined in COSE.
    The KDF HKDF SHA-256 is mandatory to implement.  The security context
-   parameters Sender Key/IV, Recipient Key/IV SHALL be derived using the
-   HKDF-Expand primitive [RFC5869]:
+   parameters Sender Key/IV, Recipient Key/IV SHALL be derived using
+   HKDF, and consists of the composition of the HKDF-Extract and HKDF-
+   Expand steps ({{RFC5869}):
 
-     output parameter = HKDF-Expand(base_key, info, output_length),
+     output parameter = HKDF(master_secret, salt, info, output_length),
 
    where:
 
-   o  base_key is defined above
+   o  master_secret is defined above
+
+   o  salt is a string of zeros of the length of the hash function
+      output in octets
 
    o  info is a serialized CBOR array consisting of:
 
@@ -550,10 +554,6 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
    64-bits long pseudo-random Cids, in order to have globally unique
    Context Identifiers.  Cid SHOULD be unique in the sets of all
    security contexts used by all the endpoints.  If it is not the case,
-   it is the role of the application to specify how to handle
-   collisions.
-
-
 
 
 
@@ -561,6 +561,9 @@ Selander, et al.          Expires June 22, 2017                [Page 10]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
+
+   it is the role of the application to specify how to handle
+   collisions.
 
    If the application has total control of both clients and servers,
    shorter unique Cids MAY be used.  Note that Cids of different lengths
@@ -601,14 +604,11 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
    This section also outlines how the message fields are processed and
    transferred, a detailed description is provided in Section 6.
-   Message fields of the unprotected CoAP message are either trasferred
+   Message fields of the unprotected CoAP message are either transferred
    in the header/options part of the protected CoAP message, or in the
    plaintext of the COSE object.  Depending on which, the location of
    the message field in the protected CoAP message is called "outer" or
    "inner":
-
-   o  Inner message field = message field included in the plaintext of
-      the COSE object of the protected CoAP message (see Section 5.1)
 
 
 
@@ -617,6 +617,9 @@ Selander, et al.          Expires June 22, 2017                [Page 11]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
+
+   o  Inner message field = message field included in the plaintext of
+      the COSE object of the protected CoAP message (see Section 5.1)
 
    o  Outer message field = message field included in the header or
       options part of the protected CoAP message
@@ -662,10 +665,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
    Other CoAP header fields SHALL neither be integrity protected nor
    encrypted.  The CoAP header fields are thus outer message fields.
 
-   The sending endpoint SHALL copy the header fields from the
-   unprotected CoAP message to the protected CoAP message.  The
-   receiving endpoint SHALL copy the header fields from the protected
-   CoAP message to the unprotected CoAP message.  Both sender and
+
 
 
 
@@ -674,6 +674,10 @@ Selander, et al.          Expires June 22, 2017                [Page 12]
 Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
 
+   The sending endpoint SHALL copy the header fields from the
+   unprotected CoAP message to the protected CoAP message.  The
+   receiving endpoint SHALL copy the header fields from the protected
+   CoAP message to the unprotected CoAP message.  Both sender and
    receiver inserts the CoAP version number and header field Code in the
    AAD of the COSE object (see section Section 5.2).
 
@@ -719,16 +723,15 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
                    Figure 4: Protection of CoAP Options
 
-   A summary of how options are protected and processed is shown in
-   Figure 4.  The CoAP options are partitioned into two classes:
-
-
 
 
 Selander, et al.          Expires June 22, 2017                [Page 13]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
+
+   A summary of how options are protected and processed is shown in
+   Figure 4.  The CoAP options are partitioned into two classes:
 
    o  E - options which are encrypted and integrity protected, and
 
@@ -773,10 +776,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
    message and SHALL replace it with the value from the COSE object when
    present (see Section 6.3 and Section 6.5).
 
-4.3.1.1.  Max-Age
 
-   An inner Max-Age option is used as defined in [RFC7252] taking into
-   account that it is not accessible to proxies.
 
 
 
@@ -785,6 +785,11 @@ Selander, et al.          Expires June 22, 2017                [Page 14]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
+
+4.3.1.1.  Max-Age
+
+   An inner Max-Age option is used as defined in [RFC7252] taking into
+   account that it is not accessible to proxies.
 
    Since OSCOAP binds CoAP responses to requests, a cached response
    would not be possible to use for any other request.  Therefore, there
@@ -829,11 +834,6 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
    In addition to the processing defined for the inner Block options
    inherent to class E options, the AEAD Tag from each block SHALL be
-   included in the calculation of the Tag for the next block (see
-   Section 5.2), so that each block in the order being sent can be
-   verified as it arrives.
-
-
 
 
 
@@ -841,6 +841,10 @@ Selander, et al.          Expires June 22, 2017                [Page 15]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
+
+   included in the calculation of the Tag for the next block (see
+   Section 5.2), so that each block in the order being sent can be
+   verified as it arrives.
 
    The protected CoAP message may be fragmented by the sending endpoint
    or proxy as defined in [RFC7959], in which case the outer Block
@@ -886,10 +890,6 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
    unprotected CoAP message into the unencrypted-Uri (Section 5.2) and
    Uri-Path/Query options according to section 6.4 of [RFC7252].
 
-   Uri-Path and Uri-Query are class E options and SHALL be protected and
-   processed as if obtained from the unprotected CoAP message, see
-   Section 4.3.1.
-
 
 
 
@@ -897,6 +897,10 @@ Selander, et al.          Expires June 22, 2017                [Page 16]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
+
+   Uri-Path and Uri-Query are class E options and SHALL be protected and
+   processed as if obtained from the unprotected CoAP message, see
+   Section 4.3.1.
 
    The value of the Proxy-Uri option of the protected CoAP message SHALL
    be replaced with unencrypted-Uri and SHALL be protected and processed
@@ -943,16 +947,15 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
    protected, and by Additional Authenticated Data (AAD) the data that
    is integrity protected only, in the COSE object.
 
-   The fields of COSE_Encrypt0 structure are defined as follows (see
-   example in Appendix C.4).
-
-
 
 
 Selander, et al.          Expires June 22, 2017                [Page 17]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
+
+   The fields of COSE_Encrypt0 structure are defined as follows (see
+   example in Appendix C.4).
 
    o  The "Headers" field is formed by:
 
@@ -991,9 +994,6 @@ Internet-Draft      Object Security of CoAP (OSCOAP)       December 2016
 
    o  the CoAP Payload, if present, and in that case prefixed by the
       one-byte Payload Marker (0xFF).
-
-
-
 
 
 
