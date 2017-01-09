@@ -454,7 +454,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
    o  AEAD Algorithm (Alg)
 
-      *  Implmenentations MUST support the mandatory-to-implement
+      *  Implementations MUST support the mandatory-to-implement
          algorithm AES-CCM-64-64-128 (value 12).
 
    The following input parameters MAY be pre-established:
