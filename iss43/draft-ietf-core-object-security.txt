@@ -2466,29 +2466,29 @@ Selander, et al.          Expires July 13, 2017                [Page 44]
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
-                  {
-                    Node="Node1",
-                    CommonPart = {
-                      Cid = "123",
-                      Alg = "AES-CCM-64-64-128",
-                      BaseKey = "ourKey"
-                    }
-                    SenderPart = {
-                      SenderId = "0x00",
-                      SenderKey = "firstDerivedKey",
-                      SenderIV = "456",
-                      SenderSeqNo = "74"
-                    }
-                    RecipientPart = {
-                      RecipientId = "0x01",
-                      RecipientKey = "secondDerivedKey",
-                      RecipientIV = "789",
-                      RecipientReplayWindow = {
-                        LastSeen = "85",
-                        Window = "11011101...."
+                      {
+                        Node="Node1",
+                        CommonPart = {
+                          Cid = "123",
+                          Alg = "AES-CCM-64-64-128",
+                          BaseKey = "ourKey"
+                        }
+                        SenderPart = {
+                          SenderId = "0x00",
+                          SenderKey = "firstKey",
+                          SenderIV = "456",
+                          SenderSeqNo = "74"
+                        }
+                        RecipientPart = {
+                          RecipientId = "0x01",
+                          RecipientKey = "secondKey",
+                          RecipientIV = "789",
+                          RecipientReplayWindow = {
+                            LastSeen = "85",
+                            Window = "11011101...."
+                          }
+                        }
                       }
-                    }
-                  }
 
            Figure 16: Security Context of original Sender node.
 
@@ -2522,29 +2522,29 @@ Selander, et al.          Expires July 13, 2017                [Page 45]
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
-                   {
-                     Node="Node2",
-                     CommonPart = {
-                       Cid = "123",
-                       Alg = "AES-CCM-64-64-128",
-                       BaseKey = "ourKey"
-                     }
-                     SenderPart = {
-                       SenderId = "0x01",
-                       SenderKey = "secondDerivedKey",
-                       SenderIV = "789",
-                       SenderSeqNo = "85"
-                     }
-                     RecipientPart = {
-                       RecipientId = "0x00",
-                       RecipientKey = "firstDerivedKey",
-                       RecipientIV = "456",
-                       RecipientReplayWindow = {
-                         LastSeen = "74",
-                         Window = "10011111...."
-                       }
-                     }
-                   }
+                      {
+                        Node="Node2",
+                        CommonPart = {
+                          Cid = "123",
+                          Alg = "AES-CCM-64-64-128",
+                          BaseKey = "ourKey"
+                        }
+                        SenderPart = {
+                          SenderId = "0x01",
+                          SenderKey = "secondKey",
+                          SenderIV = "789",
+                          SenderSeqNo = "85"
+                        }
+                        RecipientPart = {
+                          RecipientId = "0x00",
+                          RecipientKey = "firstKey",
+                          RecipientIV = "456",
+                          RecipientReplayWindow = {
+                            LastSeen = "74",
+                            Window = "10011111...."
+                          }
+                        }
+                      }
 
 
           Figure 17: Security Context of original Recipient node.
