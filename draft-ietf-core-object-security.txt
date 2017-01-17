@@ -452,11 +452,13 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
    o  Base Key (master_secret)
 
+   The following input parameters MAY be pre-established.  In case any
+   of these parameters is not pre-established, the default value
+   indicated below is used:
+
    o  AEAD Algorithm (Alg)
 
       *  Default is AES-CCM-64-64-128 (value 12)
-
-   The following input parameters MAY be pre-established:
 
    o  Sender ID
 
@@ -495,8 +497,6 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
    establishment of input parameters with the property of forward
    secrecy, and negotiation of KDF and AEAD, it thus provides all
    necessary pre-requisite steps for using OSCOAP as defined here.
-
-
 
 
 

@@ -576,12 +576,12 @@ Verify request with   |                       |
 <ul>
   <li>Context Identifier (Cid)</li>
   <li>Base Key (master_secret)</li>
-  <li>AEAD Algorithm (Alg) <ul><li>Default is AES-CCM-64-64-128 (value 12)</li></ul></li>
 </ul>
-<p id="rfc.section.3.2.p.4">The following input parameters MAY be pre-established:</p>
+<p id="rfc.section.3.2.p.4">The following input parameters MAY be pre-established. In case any of these parameters is not pre-established, the default value indicated below is used:</p>
 <p/>
 
 <ul>
+  <li>AEAD Algorithm (Alg) <ul><li>Default is AES-CCM-64-64-128 (value 12)</li></ul></li>
   <li>Sender ID <ul><li>Defaults are 0x00 for the endpoint initially being client, and 0x01 for the endpoint initially being server</li></ul></li>
   <li>Recipient ID <ul><li>Defaults are 0x01 for the endpoint initially being client, and 0x00 for the endpoint initially being server</li></ul></li>
   <li>Key Derivation Function (KDF) <ul><li>Default is HKDF SHA-256</li></ul></li>
