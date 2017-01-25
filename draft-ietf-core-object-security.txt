@@ -5,10 +5,10 @@
 CoRE Working Group                                           G. Selander
 Internet-Draft                                               J. Mattsson
 Intended status: Standards Track                            F. Palombini
-Expires: July 24, 2017                                       Ericsson AB
+Expires: July 29, 2017                                       Ericsson AB
                                                                 L. Seitz
                                                         SICS Swedish ICT
-                                                        January 20, 2017
+                                                        January 25, 2017
 
 
                     Object Security of CoAP (OSCOAP)
@@ -40,7 +40,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on July 24, 2017.
+   This Internet-Draft will expire on July 29, 2017.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Selander, et al.          Expires July 24, 2017                 [Page 1]
+Selander, et al.          Expires July 29, 2017                 [Page 1]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Selander, et al.          Expires July 24, 2017                 [Page 2]
+Selander, et al.          Expires July 29, 2017                 [Page 2]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -165,7 +165,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                 [Page 3]
+Selander, et al.          Expires July 29, 2017                 [Page 3]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -221,7 +221,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                 [Page 4]
+Selander, et al.          Expires July 29, 2017                 [Page 4]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -277,7 +277,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                 [Page 5]
+Selander, et al.          Expires July 29, 2017                 [Page 5]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -333,7 +333,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                 [Page 6]
+Selander, et al.          Expires July 29, 2017                 [Page 6]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -389,7 +389,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                 [Page 7]
+Selander, et al.          Expires July 29, 2017                 [Page 7]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -445,7 +445,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                 [Page 8]
+Selander, et al.          Expires July 29, 2017                 [Page 8]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -501,7 +501,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                 [Page 9]
+Selander, et al.          Expires July 29, 2017                 [Page 9]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -518,7 +518,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
    The KDF HKDF SHA-256 is mandatory to implement.  The security context
    parameters Sender Key/IV, Recipient Key/IV SHALL be derived using
    HKDF, and consists of the composition of the HKDF-Extract and HKDF-
-   Expand steps ({{RFC5869}):
+   Expand steps ([RFC5869]):
 
      output parameter = HKDF(master_secret, salt, info, output_length),
 
@@ -557,7 +557,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 10]
+Selander, et al.          Expires July 29, 2017                [Page 10]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -613,7 +613,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 11]
+Selander, et al.          Expires July 29, 2017                [Page 11]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -669,7 +669,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 12]
+Selander, et al.          Expires July 29, 2017                [Page 12]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -725,7 +725,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 13]
+Selander, et al.          Expires July 29, 2017                [Page 13]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -781,7 +781,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 14]
+Selander, et al.          Expires July 29, 2017                [Page 14]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -837,7 +837,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 15]
+Selander, et al.          Expires July 29, 2017                [Page 15]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -887,13 +887,13 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
    defined in this document (see Section 6.3 and Section 6.5).
 
    If the unprotected CoAP message contains Block options, the receiving
-   endpoint processes this according to {{RFC7959}.
+   endpoint processes this according to [RFC7959].
 
 
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 16]
+Selander, et al.          Expires July 29, 2017                [Page 16]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -949,7 +949,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 17]
+Selander, et al.          Expires July 29, 2017                [Page 17]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -1005,7 +1005,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 18]
+Selander, et al.          Expires July 29, 2017                [Page 18]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -1061,7 +1061,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 19]
+Selander, et al.          Expires July 29, 2017                [Page 19]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -1117,7 +1117,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 20]
+Selander, et al.          Expires July 29, 2017                [Page 20]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -1173,7 +1173,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 21]
+Selander, et al.          Expires July 29, 2017                [Page 21]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -1229,7 +1229,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 22]
+Selander, et al.          Expires July 29, 2017                [Page 22]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -1285,7 +1285,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 23]
+Selander, et al.          Expires July 29, 2017                [Page 23]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -1341,7 +1341,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 24]
+Selander, et al.          Expires July 29, 2017                [Page 24]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -1397,7 +1397,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 25]
+Selander, et al.          Expires July 29, 2017                [Page 25]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -1453,7 +1453,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 26]
+Selander, et al.          Expires July 29, 2017                [Page 26]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -1509,7 +1509,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 27]
+Selander, et al.          Expires July 29, 2017                [Page 27]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -1565,7 +1565,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 28]
+Selander, et al.          Expires July 29, 2017                [Page 28]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -1621,7 +1621,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 29]
+Selander, et al.          Expires July 29, 2017                [Page 29]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -1677,7 +1677,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 30]
+Selander, et al.          Expires July 29, 2017                [Page 30]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -1733,7 +1733,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 31]
+Selander, et al.          Expires July 29, 2017                [Page 31]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -1789,7 +1789,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 32]
+Selander, et al.          Expires July 29, 2017                [Page 32]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -1845,7 +1845,7 @@ A.2.  Size of the COSE Object
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 33]
+Selander, et al.          Expires July 29, 2017                [Page 33]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -1901,7 +1901,7 @@ A.3.  Message Expansion
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 34]
+Selander, et al.          Expires July 29, 2017                [Page 34]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -1957,7 +1957,7 @@ A.4.  Example
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 35]
+Selander, et al.          Expires July 29, 2017                [Page 35]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -2013,7 +2013,7 @@ B.1.  Secure Access to Sensor
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 36]
+Selander, et al.          Expires July 29, 2017                [Page 36]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -2069,7 +2069,7 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 37]
+Selander, et al.          Expires July 29, 2017                [Page 37]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -2125,7 +2125,7 @@ B.2.  Secure Subscribe to Sensor
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 38]
+Selander, et al.          Expires July 29, 2017                [Page 38]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -2181,7 +2181,7 @@ Appendix C.  Object Security of Content (OSCON)
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 39]
+Selander, et al.          Expires July 29, 2017                [Page 39]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -2237,7 +2237,7 @@ C.1.  Overhead OSCON
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 40]
+Selander, et al.          Expires July 29, 2017                [Page 40]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -2293,7 +2293,7 @@ C.2.  MAC Only
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 41]
+Selander, et al.          Expires July 29, 2017                [Page 41]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -2349,7 +2349,7 @@ C.3.  Signature Only
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 42]
+Selander, et al.          Expires July 29, 2017                [Page 42]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -2405,7 +2405,7 @@ C.5.  Symmetric Encryption with Asymmetric Signature (SEAS)
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 43]
+Selander, et al.          Expires July 29, 2017                [Page 43]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -2461,7 +2461,7 @@ Authors' Addresses
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 44]
+Selander, et al.          Expires July 29, 2017                [Page 44]
 
 Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
@@ -2517,4 +2517,4 @@ Internet-Draft      Object Security of CoAP (OSCOAP)        January 2017
 
 
 
-Selander, et al.          Expires July 24, 2017                [Page 45]
+Selander, et al.          Expires July 29, 2017                [Page 45]

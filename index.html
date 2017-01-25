@@ -335,7 +335,7 @@ address {
 
   <meta name="dct.creator" content="Selander, G., Mattsson, J., Palombini, F., and L. Seitz" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-ietf-core-object-security-latest" />
-  <meta name="dct.issued" scheme="ISO8601" content="2017-1-20" />
+  <meta name="dct.issued" scheme="ISO8601" content="2017-1-25" />
   <meta name="dct.abstract" content="This memo defines Object Security of CoAP (OSCOAP), a method for application layer protection of message exchanges with the Constrained Application Protocol (CoAP), using the CBOR Object Signing and Encryption (COSE) format. OSCOAP provides end-to-end encryption, integrity and replay protection to CoAP payload, options, and header fields, as well as a secure binding between CoAP request and response messages. The use of OSCOAP is signaled with the CoAP option Object-Security, also defined in this memo." />
   <meta name="description" content="This memo defines Object Security of CoAP (OSCOAP), a method for application layer protection of message exchanges with the Constrained Application Protocol (CoAP), using the CBOR Object Signing and Encryption (COSE) format. OSCOAP provides end-to-end encryption, integrity and replay protection to CoAP payload, options, and header fields, as well as a secure binding between CoAP request and response messages. The use of OSCOAP is signaled with the CoAP option Object-Security, also defined in this memo." />
 
@@ -359,7 +359,7 @@ address {
   <td class="right">F. Palombini</td>
 </tr>
 <tr>
-  <td class="left">Expires: July 24, 2017</td>
+  <td class="left">Expires: July 29, 2017</td>
   <td class="right">Ericsson AB</td>
 </tr>
 <tr>
@@ -372,7 +372,7 @@ address {
 </tr>
 <tr>
   <td class="left"></td>
-  <td class="right">January 20, 2017</td>
+  <td class="right">January 25, 2017</td>
 </tr>
 
     	
@@ -392,7 +392,7 @@ address {
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on July 24, 2017.</p>
+<p>This Internet-Draft will expire on July 29, 2017.</p>
 <h1 id="rfc.copyrightnotice">
   <a href="#rfc.copyrightnotice">Copyright Notice</a>
 </h1>
@@ -598,7 +598,7 @@ Verify request with   |                       |
 <p id="rfc.section.3.2.p.9">The EDHOC protocol <a href="#I-D.selander-ace-cose-ecdhe">[I-D.selander-ace-cose-ecdhe]</a> enables the establishment of input parameters with the property of forward secrecy, and negotiation of KDF and AEAD, it thus provides all necessary pre-requisite steps for using OSCOAP as defined here.</p>
 <h1 id="rfc.section.3.2.1"><a href="#rfc.section.3.2.1">3.2.1.</a> <a href="#derivation-of-sender-keyiv-recipient-keyiv" id="derivation-of-sender-keyiv-recipient-keyiv">Derivation of Sender Key/IV, Recipient Key/IV</a></h1>
 <p id="rfc.section.3.2.1.p.1">Given the input parameters, the client and server can derive all the other parameters in the security context. The derivation procedure described here MUST NOT be executed more than once using the same master_secret and Cid. The same master_secret SHOULD NOT be used with more than one Cid.</p>
-<p id="rfc.section.3.2.1.p.2">The KDF MUST be one of the HKDF <a href="#RFC5869">[RFC5869]</a> algorithms defined in COSE. The KDF HKDF SHA-256 is mandatory to implement. The security context parameters Sender Key/IV, Recipient Key/IV SHALL be derived using HKDF, and consists of the composition of the HKDF-Extract and HKDF-Expand steps ({{RFC5869}):</p>
+<p id="rfc.section.3.2.1.p.2">The KDF MUST be one of the HKDF <a href="#RFC5869">[RFC5869]</a> algorithms defined in COSE. The KDF HKDF SHA-256 is mandatory to implement. The security context parameters Sender Key/IV, Recipient Key/IV SHALL be derived using HKDF, and consists of the composition of the HKDF-Extract and HKDF-Expand steps (<a href="#RFC5869">[RFC5869]</a>):</p>
 <pre>
   output parameter = HKDF(master_secret, salt, info, output_length), 
 </pre>
@@ -722,7 +722,7 @@ Verify request with   |                       |
 <p id="rfc.section.4.3.1.3.p.4">In addition to the processing defined for the inner Block options inherent to class E options, the AEAD Tag from each block SHALL be included in the calculation of the Tag for the next block (see <a href="#AAD">Section 5.2</a>), so that each block in the order being sent can be verified as it arrives.</p>
 <p id="rfc.section.4.3.1.3.p.5">The protected CoAP message may be fragmented by the sending endpoint or proxy as defined in <a href="#RFC7959">[RFC7959]</a>, in which case the outer Block options are being used. The outer Block options SHALL neither be encrypted nor integrity protected.</p>
 <p id="rfc.section.4.3.1.3.p.6">An endpoint receiving a message with an outer Block option SHALL first process this option according to <a href="#RFC7959">[RFC7959]</a>, until all blocks of the protected CoAP message has been received, or the cumulated message size of the exceeds the maximum unfragmented message size. In the latter case the message SHALL be discarded. In the former case, the processing of the protected CoAP message continues as defined in this document (see <a href="#verif-coap-req">Section 6.3</a> and <a href="#verif-coap-resp">Section 6.5</a>).</p>
-<p id="rfc.section.4.3.1.3.p.7">If the unprotected CoAP message contains Block options, the receiving endpoint processes this according to {{RFC7959}.</p>
+<p id="rfc.section.4.3.1.3.p.7">If the unprotected CoAP message contains Block options, the receiving endpoint processes this according to <a href="#RFC7959">[RFC7959]</a>.</p>
 <h1 id="rfc.section.4.3.2"><a href="#rfc.section.4.3.2">4.3.2.</a> <a href="#class-a" id="class-a">Class A Options</a></h1>
 <p id="rfc.section.4.3.2.p.1">Options in this class are used to support forward proxy operations. Class A options SHALL only have outer values and SHALL NOT be encrypted. In order for the destination endpoint to verify the Uri, class A options SHALL be integrity protected.</p>
 <p id="rfc.section.4.3.2.p.2">Uri-Host, Uri-Port, Proxy-Scheme and Proxy-Uri are class A options. When Uri-Host, Uri-Port, Proxy-Scheme options are present, Proxy-Uri is not used <a href="#RFC7252">[RFC7252]</a>. Proxy-Uri is processed like the other class A options after a pre-processing step (see <a href="#proxy-uri">Section 4.3.2.1</a>.</p>
