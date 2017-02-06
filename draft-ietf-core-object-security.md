@@ -4,48 +4,43 @@ docname: draft-ietf-core-object-security-latest
 
 ipr: trust200902
 wg: CoRE Working Group
-kw: Internet-Draft
 cat: std
 
-coding: us-ascii
+coding: utf-8
 pi: [toc, softrefs, symrefs]
 
 author:
       -
         ins: G. Selander
-        name: Goeran Selander
+        name: Göran Selander
         org: Ericsson AB
-        street: Farogatan 6
-        city: Kista
-        code: SE-16480 Stockholm
-        country: Sweden
+        street: Färögatan 6
+        code: SE-164 80 Stockholm
+        country: SWEDEN
         email: goran.selander@ericsson.com
       -
         ins: J. Mattsson
         name: John Mattsson
         org: Ericsson AB
-        street: Farogatan 6
-        city: Kista
-        code: SE-16480 Stockholm
-        country: Sweden
+        street: Färögatan 6
+        code: SE-164 80 Stockholm
+        country: SWEDEN
         email: john.mattsson@ericsson.com
       -
         ins: F. Palombini
         name: Francesca Palombini
         org: Ericsson AB
-        street: Farogatan 6
-        city: Kista
-        code: SE-16480 Stockholm
-        country: Sweden
+        street: Färögatan 6
+        code: SE-164 80 Stockholm
+        country: SWEDEN
         email: francesca.palombini@ericsson.com
       -
         ins: L. Seitz
         name: Ludwig Seitz
         org: SICS Swedish ICT
         street: Scheelevagen 17
-        city: Lund
-        code: 22370
-        country: Sweden
+        code: SE-223 70 Lund
+        country: SWEDEN
         email: ludwig@sics.se
 
 normative:
@@ -770,7 +765,7 @@ The "application/oscon" media type is added to the Media Types registry:
 
         Restrictions on usage: N/A
 
-        Author: Goeran Selander, goran.selander@ericsson.com
+        Author: Göran Selander, goran.selander@ericsson.com
 
         Change Controller: IESG
 
